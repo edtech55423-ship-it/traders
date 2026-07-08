@@ -25,9 +25,9 @@ export default function Course() {
             <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center gap-16 bg-white/10 backdrop-blur-md border border-white/10 px-12 py-2.5 rounded-full shadow-lg z-10">
               <Link to="/" className="text-sm font-medium hover:text-white transition-colors text-white/70">Home</Link>
               <Link to="/course" className="text-sm font-medium text-white hover:text-white transition-colors">Course</Link>
-              <Link to="/#about" className="text-sm font-medium text-white/70 hover:text-white transition-colors">About</Link>
-              <Link to="/#faq" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Help</Link>
-              <Link to="/#contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Contact</Link>
+              {/* <Link to="/#about" className="text-sm font-medium text-white/70 hover:text-white transition-colors">About</Link> */}
+              <Link to="/#faq" className="text-sm font-medium text-white/70 hover:text-white transition-colors">FAQs</Link>
+              <Link to="/#footer" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Contact</Link>
             </div>
             <div className="flex items-center space-x-2 md:space-x-4 z-10">
               <Link to="/login" className="text-xs md:text-sm font-medium bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 md:px-6 md:py-3 rounded-full text-white/80 hover:text-white transition-colors shadow-lg">Register/Login</Link>
@@ -121,8 +121,8 @@ export default function Course() {
                 </div>
               </div>
 
-              <div className="mt-16 md:mt-24 flex flex-col md:flex-row items-center justify-between border-t border-white/10 pt-12 md:pt-16">
-                <div className="max-w-xl text-center md:text-left">
+              <div className="mt-16 md:mt-24 flex flex-col md:flex-row items-center justify-center border-t border-white/10 pt-12 md:pt-16">
+                <div className="max-w-xl text-center md:text-center">
                   <h3 className="text-3xl font-bold mb-4 border border-white/20 inline-block px-6 py-3 rounded-full text-gray-300 bg-white/5">Not sure where to start?</h3>
                   <p className="text-gray-400 mt-6 mb-8">Take a free counseling session and our experts will recommend the perfect course for your experience level.</p>
                   <Link to="/consultation">
@@ -131,7 +131,6 @@ export default function Course() {
                     </Button>
                   </Link>
                 </div>
-                <div className="text-[12rem] font-light text-primary/20 opacity-50 select-none hidden md:block">?</div>
               </div>
             </div>
           </section>

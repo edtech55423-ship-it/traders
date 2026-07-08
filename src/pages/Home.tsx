@@ -28,9 +28,9 @@ export default function Home() {
             <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center gap-16 bg-white/10 backdrop-blur-md border border-white/10 px-12 py-2.5 rounded-full shadow-lg z-10">
               <a href="#home" className="text-sm font-medium hover:text-white transition-colors text-white">Home</a>
               <Link to="/course" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Course</Link>
-              <a href="#about" className="text-sm font-medium text-white/70 hover:text-white transition-colors">About</a>
-              <a href="#faq" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Help</a>
-              <a href="#contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Contact</a>
+              <a href="#team" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Team</a>
+              <a href="#faq" className="text-sm font-medium text-white/70 hover:text-white transition-colors">FAQS</a>
+              <a href="#footer" className="text-sm font-medium text-white/70 hover:text-white transition-colors">About</a>
             </div>
             <div className="flex items-center space-x-2 md:space-x-4 z-10">
               <Link to="/login" className="text-xs md:text-sm font-medium bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 md:px-6 md:py-3 rounded-full text-white/80 hover:text-white transition-colors shadow-lg">Register/Login</Link>
@@ -210,8 +210,8 @@ export default function Home() {
 
 
 
-        {/* About Section */}
-        <section id="about" className="py-24 relative overflow-hidden bg-black/40 border-y border-white/5 backdrop-blur-sm">
+        {/* features section Section */}
+        <section id="features" className="py-24 relative overflow-hidden bg-black/40 border-y border-white/5 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <motion.div
@@ -258,7 +258,7 @@ export default function Home() {
         </section>
 
         {/* Gallery Section */}
-        <section id="gallery" className="py-24 relative overflow-hidden bg-black/40 border-b border-white/5 backdrop-blur-sm">
+        <section id="gallery" className="py-24 relative overflow-hidden bg-black/2 border-b border-white/5 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mb-16">
               <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">Inside T4</span>
@@ -283,10 +283,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Results Section */}
-        <section id="results" className="py-24 relative overflow-hidden border-b border-white/5">
+        {/* Review Section */}
+        <section id="review" className="py-24 relative overflow-hidden border-b border-white/5">
           <div className="max-w-7xl mx-auto px-4 mb-16">
-            <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">Student results</span>
+            <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">Student Review</span>
             <h2 className="text-3xl md:text-5xl font-bold max-w-2xl">Confidence, not certainty. That's what a system gives you.</h2>
           </div>
 
@@ -394,33 +394,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Final CTA Section */}
-        <section id="final-cta" className="py-32 relative text-center overflow-hidden border-t border-white/5">
-          <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
-
-          <div className="relative z-10 max-w-7xl mx-auto">
-            <motion.div
-              animate={{ x: [0, -1000] }}
-              transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-              className="flex space-x-12 whitespace-nowrap mb-16 opacity-30"
-            >
-              {[...Array(6)].map((_, i) => (
-                <span key={i} className="text-4xl md:text-[6rem] font-serif italic text-white font-light">
-                  Start the T4 Method ✦ Trade with a system ✦
-                </span>
-              ))}
-            </motion.div>
-
-            <Link to="/course">
-              <Button className="px-10 py-6 h-auto text-lg rounded-full bg-primary text-black hover:bg-primary/90 font-bold tracking-wide">
-                Start the T4 Method
-              </Button>
-            </Link>
-          </div>
-        </section>
-
         {/* Footer / Contact */}
-        <footer id="contact" className="bg-[#020703] border-t border-white/10 pt-16 pb-8">
+        <footer id="footer" className="bg-[#020703] border-t border-white/10 pt-16 pb-8">
           <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-12 mb-12">
             <div>
               <div className="text-2xl font-bold tracking-tighter mb-6">
@@ -452,7 +427,7 @@ export default function Home() {
             <div>
               <h4 className="font-bold mb-6 text-white">Company</h4>
               <ul className="space-y-3 text-sm text-gray-500">
-                <li><a href="#about" className="hover:text-primary transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
                 <li><a href="#team" className="hover:text-primary transition-colors">Our Team</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
