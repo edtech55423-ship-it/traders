@@ -41,7 +41,7 @@ export default function Consultation() {
           <Button type="button" className="w-full mt-4">Confirm Booking</Button>
         </form>
         <div className="mt-6 text-center">
-          <Link to="/" className="text-xs text-gray-500 hover:text-white transition-colors">Back to Home</Link>
+          <Link to="/course" className="text-xs text-gray-500 hover:text-white transition-colors">Back to Courses</Link>
         </div>
       </div>
     </div>
