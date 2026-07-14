@@ -91,12 +91,6 @@ export default function Course() {
               >
                 FAQS
               </Link>
-              <Link
-                to="/#footer"
-                className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-              >
-                About
-              </Link>
             </div>
             <div className="flex items-center space-x-2 md:space-x-4 z-10">
               {session ? (
@@ -117,7 +111,6 @@ export default function Course() {
                   ...(session && isAdmin(session.user?.email) ? [{ label: "Dashboard", to: "/dashboard" }] : []),
                   { label: "Team", to: "/#team" },
                   { label: "FAQs", to: "/#faq" },
-                  { label: "About", to: "/#footer" },
                 ]}
               >
                 {!session && (

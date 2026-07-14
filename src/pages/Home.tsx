@@ -11,7 +11,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { UserProfile } from "../components/ui/UserProfile";
-import { HalftoneBackground } from "../components/ui/HalftoneBackground";
 import { isAdmin } from "../lib/admin";
 import logoi from "../assets/logoi.png";
 import gsap from "gsap";
@@ -161,12 +160,6 @@ export default function Home() {
               >
                 FAQS
               </a>
-              <a
-                href="#footer"
-                className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-              >
-                About
-              </a>
             </div>
             <div className="flex items-center space-x-2 md:space-x-4 z-10">
               {session ? (
@@ -187,7 +180,6 @@ export default function Home() {
                   ...(session && isAdmin(session.user?.email) ? [{ label: "Dashboard", to: "/dashboard" }] : []),
                   { label: "Team", to: "#team" },
                   { label: "FAQs", to: "#faq" },
-                  { label: "About", to: "#footer" },
                 ]}
               >
                 {!session && (
@@ -208,8 +200,6 @@ export default function Home() {
           id="home"
           className="relative min-h-screen flex flex-col items-center justify-center pt-12 pb-8 md:pt-24 md:pb-32 overflow-hidden"
         >
-          {/* Interactive Halftone Background */}
-          <HalftoneBackground />
           
           <div className="relative z-10 text-center px-2 md:px-4 max-w-5xl mx-auto mt-16 pointer-events-none">
             <h1 className="text-4xl sm:text-5xl md:text-[6.5rem] font-['Belgin'] tracking-tight leading-[1.1] mb-6 md:mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
@@ -358,12 +348,12 @@ export default function Home() {
         {/* Word Marquee Section */}
         <section className="py-6 border-b border-white/5 overflow-hidden">
           <motion.div
-            animate={{ x: [-100, 1000] }}
-            transition={{ repeat: Infinity, duration: 70, ease: "linear", repeatType: "reverse" }}
-            className="flex space-x-12 whitespace-nowrap text-gray-500 font-mono font-bold uppercase tracking-widest text-sm"
+            animate={{ x: ["-50%", "0%"] }}
+            transition={{ repeat: Infinity, duration: 35, ease: "linear" }}
+            className="flex w-max whitespace-nowrap text-gray-500 font-mono font-bold uppercase tracking-widest text-sm"
           >
             {[...Array(6)].map((_, i) => (
-              <span key={i} className="flex items-center space-x-12">
+              <span key={i} className="flex items-center space-x-12 pr-12">
                 <span>SMC</span>
                 <span className="text-primary text-xs">✦</span>
                 <span>Price Action</span>
@@ -504,7 +494,7 @@ export default function Home() {
           id="features"
           className="py-6 md:py-24 relative overflow-hidden bg-black/40 border-y border-white/5 backdrop-blur-sm"
         >
-          <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="max-w-7xl mx-auto p-7 md:px-10">
             <div className="grid md:grid-cols-2 gap-4 md:gap-16 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -568,7 +558,7 @@ export default function Home() {
           id="gallery"
           className="py-6 md:py-24 relative overflow-hidden bg-black/2 border-b border-white/5 backdrop-blur-sm"
         >
-          <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="max-w-7xl mx-auto p-7 md:px-10">
             <div className="mb-6 md:mb-16">
               <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">
                 Inside T4
@@ -633,7 +623,7 @@ export default function Home() {
           id="review"
           className="py-6 md:py-24 relative overflow-hidden border-b border-white/5"
         >
-          <div className="max-w-7xl mx-auto px-4 md:px-8 mb-6 md:mb-16">
+          <div className="max-w-7xl mx-auto p-7 md:px-10 mb-6 md:mb-16">
             <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">
               Student Review
             </span>
@@ -715,47 +705,71 @@ export default function Home() {
         </section>
 
         {/* Team Section */}
-        <section id="team" className="py-6 md:py-24 relative">
-          <div className="max-w-7xl mx-auto px-4 md:px-8 overflow-hidden">
-            <h2 className="text-3xl font-bold mb-6 md:mb-6 md:mb-12 text-center">
-              Meet Our <span className="text-primary">Team</span>
-            </h2>
+        <section id="team" className="py-16 md:py-32 relative overflow-hidden bg-black">
+          <div className="max-w-4xl mx-auto px-6 md:px-10 relative z-10">
+            <div className="text-center mb-16">
+              <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">
+                The Experts Behind T4
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+                Meet Our <span className="text-primary">Mentors</span>
+              </h2>
+            </div>
 
-            <h3 className="text-xl font-semibold mb-6 text-gray-400 border-b border-white/10 pb-2">
-              Teaching Mentors
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8 mb-6 md:mb-16">
-              {[1, 2].map((i) => (
-                <GlassCard
-                  key={i}
-                  className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left"
-                >
-                  <div className="w-24 h-24 rounded-full bg-white/10 flex-shrink-0 border-2 border-primary/50 overflow-hidden">
-                    <img
-                      src={`https://i.pravatar.cc/150?img=${i + 10}`}
-                      alt="Mentor"
-                      className="w-full h-full object-cover"
-                    />
+            {/* Split Screen Accordion Container */}
+            <div className="group flex flex-col md:flex-row w-full h-[600px] md:h-[450px] rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-[#0a0a0a]">
+              
+              {/* Member 1 (Left / Top) */}
+              <div className="group/member w-full h-1/2 md:w-1/2 md:h-full group-hover:h-0 md:group-hover:h-full md:group-hover:w-0 hover:!h-full md:hover:!w-full transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] relative overflow-hidden cursor-pointer border-b md:border-b-0 md:border-r border-white/10">
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
+                <img
+                  src="https://i.pravatar.cc/800?img=11"
+                  alt="Rahul Sharma"
+                  className="absolute inset-0 w-full h-full object-cover object-top opacity-70 group-hover/member:opacity-100 group-hover/member:scale-105 transition-all duration-700"
+                />
+                <div className="absolute inset-0 z-20 p-8 md:p-12 flex flex-col justify-end">
+                  <div className="transform md:translate-y-16 group-hover/member:translate-y-0 transition-transform duration-700">
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 whitespace-nowrap">Rahul Sharma</h3>
+                    <p className="text-primary font-mono text-sm tracking-wider uppercase mb-6 whitespace-nowrap">Senior Price Action Expert</p>
+                    
+                    <div className="opacity-0 group-hover/member:opacity-100 transition-opacity duration-700 md:delay-100 max-w-md h-0 group-hover/member:h-auto overflow-hidden">
+                      <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
+                        Master of pure price action. Rahul simplifies complex market structures into highly actionable, rules-based strategies. He has been helping students since 2018 with a focus on risk management.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-xl font-bold">Rahul Sharma</h4>
-                    <p className="text-primary text-sm mb-2">
-                      Senior Trading Mentor
-                    </p>
-                    <p className="text-gray-400 text-xs">
-                      Such a good vibe got from this Coaching experience I have
-                      got from this Coaching. Helping students since 2018.
-                    </p>
+                </div>
+              </div>
+
+              {/* Member 2 (Right / Bottom) */}
+              <div className="group/member w-full h-1/2 md:w-1/2 md:h-full group-hover:h-0 md:group-hover:h-full md:group-hover:w-0 hover:!h-full md:hover:!w-full transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] relative overflow-hidden cursor-pointer">
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
+                <img
+                  src="https://i.pravatar.cc/800?img=12"
+                  alt="Ananya Desai"
+                  className="absolute inset-0 w-full h-full object-cover object-top opacity-70 group-hover/member:opacity-100 group-hover/member:scale-105 transition-all duration-700"
+                />
+                <div className="absolute inset-0 z-20 p-8 md:p-12 flex flex-col justify-end">
+                  <div className="transform md:translate-y-16 group-hover/member:translate-y-0 transition-transform duration-700">
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 whitespace-nowrap">Ananya Desai</h3>
+                    <p className="text-primary font-mono text-sm tracking-wider uppercase mb-6 whitespace-nowrap">Options & Derivatives</p>
+                    
+                    <div className="opacity-0 group-hover/member:opacity-100 transition-opacity duration-700 md:delay-100 max-w-md h-0 group-hover/member:h-auto overflow-hidden">
+                      <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
+                        Specializes in delta-neutral and directional options strategies. She helps students manage risk while maximizing leverage using systematic trading algorithms.
+                      </p>
+                    </div>
                   </div>
-                </GlassCard>
-              ))}
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
         <section id="faq" className="py-6 md:py-24 relative border-t border-white/10">
-          <div className="max-w-3xl mx-auto px-4 md:px-8">
+          <div className="max-w-3xl mx-auto p-7 md:px-10">
             <div className="text-center mb-6 md:mb-16">
               <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">
                 Questions
@@ -825,7 +839,7 @@ export default function Home() {
           id="footer"
           className="bg-[#020703] border-t border-white/10 pt-10 md:pt-16 pb-6 md:pb-8"
         >
-          <div className="max-w-7xl mx-auto px-4 md:px-8 grid md:grid-cols-4 gap-8 md:gap-12 mb-4 md:mb-6 md:mb-12">
+          <div className="max-w-7xl mx-auto p-7 md:px-10 grid md:grid-cols-4 gap-8 md:gap-12 mb-4 md:mb-6 md:mb-12">
             <div>
               <div className="text-2xl font-bold tracking-tighter mb-6">
                 <span className="text-white">T4</span>
@@ -873,7 +887,7 @@ export default function Home() {
               </ul>
             </div>
 
-            <div>
+            {/* <div>
               <h4 className="font-bold mb-6 text-white">Company</h4>
               <ul className="space-y-3 text-sm text-gray-500">
                 <li>
@@ -900,7 +914,7 @@ export default function Home() {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             <div>
               <h4 className="font-bold mb-6 text-white">Contact Us</h4>

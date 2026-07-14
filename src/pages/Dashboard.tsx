@@ -43,6 +43,7 @@ export default function Dashboard() {
               {session && isAdmin(session.user?.email) && (
                 <Link to="/dashboard" className="text-sm font-medium text-white hover:text-white transition-colors">Dashboard</Link>
               )}
+              <a href="/#team" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Team</a>
               <Link to="/#faq" className="text-sm font-medium text-white/70 hover:text-white transition-colors">FAQs</Link>
             </div>
             
@@ -56,6 +57,7 @@ export default function Dashboard() {
                   { label: "Home", to: "/#home" },
                   { label: "Course", to: "/course" },
                   ...(session && isAdmin(session.user?.email) ? [{ label: "Dashboard", to: "/dashboard" }] : []),
+                  { label: "Team", to: "/#team" },
                   { label: "FAQs", to: "/#faq" },
                 ]}
               />
@@ -64,81 +66,81 @@ export default function Dashboard() {
         </nav>
 
         {/* Dashboard Content */}
-        <div className="pt-32 max-w-[1400px] mx-auto px-4 md:px-8">
+        <div className="pt-24 md:pt-32 max-w-[1400px] mx-auto px-4 md:px-8">
           
           {/* Welcome Header */}
-          <div className="mb-12">
+          <div className="mb-8 md:mb-12">
             <span className="inline-block px-3 py-1 bg-primary/20 text-primary border border-primary/30 rounded-full text-xs font-bold tracking-wider uppercase mb-4">
               Admin Portal
             </span>
-            <h1 className="text-3xl md:text-5xl font-bold mb-3">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3">
               Overview, <span className="text-primary capitalize">{userName}</span>
             </h1>
-            <p className="text-gray-400 text-lg">Here's what's happening with T4 Traders today.</p>
+            <p className="text-gray-400 text-base md:text-lg">Here's what's happening with T4 Traders today.</p>
           </div>
 
-          <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mb-8">
-            <GlassCard className="p-6 bg-white/5 border-white/10 flex flex-col justify-between h-32">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <GlassCard className="p-4 sm:p-6 bg-white/5 border-white/10 flex flex-col justify-between min-h-[8rem]">
               <div className="flex justify-between items-start">
                 <span className="text-gray-400 font-medium text-sm">Total Revenue</span>
                 <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
                   <DollarSign className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white">₹1,24,500</div>
+              <div className="text-2xl sm:text-3xl font-bold text-white">₹1,24,500</div>
             </GlassCard>
             
-            <GlassCard className="p-6 bg-white/5 border-white/10 flex flex-col justify-between h-32">
+            <GlassCard className="p-4 sm:p-6 bg-white/5 border-white/10 flex flex-col justify-between min-h-[8rem]">
               <div className="flex justify-between items-start">
                 <span className="text-gray-400 font-medium text-sm">Active Students</span>
                 <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
                   <Users className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white">342</div>
+              <div className="text-2xl sm:text-3xl font-bold text-white">342</div>
             </GlassCard>
 
-            <GlassCard className="p-6 bg-white/5 border-white/10 flex flex-col justify-between h-32">
+            <GlassCard className="p-4 sm:p-6 bg-white/5 border-white/10 flex flex-col justify-between min-h-[8rem]">
               <div className="flex justify-between items-start">
                 <span className="text-gray-400 font-medium text-sm">New Registrations</span>
                 <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
                   <Activity className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white">+12</div>
+              <div className="text-2xl sm:text-3xl font-bold text-white">+12</div>
             </GlassCard>
 
-            <GlassCard className="p-6 bg-white/5 border-white/10 flex flex-col justify-between h-32">
+            <GlassCard className="p-4 sm:p-6 bg-white/5 border-white/10 flex flex-col justify-between min-h-[8rem]">
               <div className="flex justify-between items-start">
                 <span className="text-gray-400 font-medium text-sm">Courses Sold</span>
                 <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400">
                   <FileText className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white">89</div>
+              <div className="text-2xl sm:text-3xl font-bold text-white">89</div>
             </GlassCard>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-8">
+          <div className="grid lg:grid-cols-12 gap-8 w-full">
             
             {/* Left Column: Recent Activity Table */}
-            <div className="lg:col-span-8 space-y-8">
+            <div className="lg:col-span-8 space-y-8 w-full min-w-0">
               <GlassCard className="p-0 bg-white/5 border-white/10 overflow-hidden">
-                <div className="p-6 border-b border-white/10">
-                  <h3 className="text-xl font-bold text-white">Recent Transactions</h3>
+                <div className="p-4 sm:p-6 border-b border-white/10">
+                  <h3 className="text-lg sm:text-xl font-bold text-white">Recent Transactions</h3>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-sm">
-                    <thead className="bg-white/5 text-gray-400 uppercase text-xs tracking-wider">
+                <div className="overflow-x-auto w-full">
+                  <table className="w-full text-left text-sm min-w-[600px]">
+                    <thead className="bg-white/5 text-gray-400 uppercase text-[10px] sm:text-xs tracking-wider">
                       <tr>
-                        <th className="px-6 py-4 font-medium">User</th>
-                        <th className="px-6 py-4 font-medium">Course</th>
-                        <th className="px-6 py-4 font-medium">Date</th>
-                        <th className="px-6 py-4 font-medium">Amount</th>
-                        <th className="px-6 py-4 font-medium text-right">Status</th>
+                        <th className="px-4 py-3 sm:px-6 sm:py-4 font-medium">User</th>
+                        <th className="px-4 py-3 sm:px-6 sm:py-4 font-medium">Course</th>
+                        <th className="px-4 py-3 sm:px-6 sm:py-4 font-medium">Date</th>
+                        <th className="px-4 py-3 sm:px-6 sm:py-4 font-medium">Amount</th>
+                        <th className="px-4 py-3 sm:px-6 sm:py-4 font-medium text-right">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/5 text-gray-300">
+                    <tbody className="divide-y divide-white/5 text-gray-300 text-xs sm:text-sm">
                       {[
                         { user: "johndoe@gmail.com", course: "SMC (Smart Money Concept)", date: "Today, 10:23 AM", amount: "₹30,000", status: "Success" },
                         { user: "meera.s@yahoo.com", course: "Price Action", date: "Today, 09:15 AM", amount: "₹20,000", status: "Success" },
@@ -146,11 +148,11 @@ export default function Dashboard() {
                         { user: "karan.v@gmail.com", course: "Risk Management", date: "Yesterday, 11:20 AM", amount: "₹15,000", status: "Failed" },
                       ].map((tx, i) => (
                         <tr key={i} className="hover:bg-white/5 transition-colors">
-                          <td className="px-6 py-4 whitespace-nowrap">{tx.user}</td>
-                          <td className="px-6 py-4 whitespace-nowrap font-medium text-white">{tx.course}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-gray-500">{tx.date}</td>
-                          <td className="px-6 py-4 whitespace-nowrap">{tx.amount}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right">
+                          <td className="px-4 py-3 sm:px-6 sm:py-4 whitespace-nowrap">{tx.user}</td>
+                          <td className="px-4 py-3 sm:px-6 sm:py-4 whitespace-nowrap font-medium text-white">{tx.course}</td>
+                          <td className="px-4 py-3 sm:px-6 sm:py-4 whitespace-nowrap text-gray-500">{tx.date}</td>
+                          <td className="px-4 py-3 sm:px-6 sm:py-4 whitespace-nowrap">{tx.amount}</td>
+                          <td className="px-4 py-3 sm:px-6 sm:py-4 whitespace-nowrap text-right">
                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${tx.status === 'Success' ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
                               {tx.status}
                             </span>
@@ -164,8 +166,8 @@ export default function Dashboard() {
             </div>
 
             {/* Right Column: Quick Stats / Notifications */}
-            <div className="lg:col-span-4 space-y-8">
-              <GlassCard className="p-6 bg-white/5 border-white/10">
+            <div className="lg:col-span-4 space-y-8 w-full min-w-0">
+              <GlassCard className="p-4 sm:p-6 bg-white/5 border-white/10">
                 <h3 className="text-lg font-bold text-white mb-6">System Status</h3>
                 
                 <div className="space-y-4">

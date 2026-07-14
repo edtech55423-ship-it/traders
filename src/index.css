@@ -165,3 +165,13 @@ body {
   transform: translateY(100%); /* starting position — off-screen below */
   will-change: transform;
 }
+
+@media (max-width: 768px) {
+  .projects-stack-container {
+    height: 480px;
+  }
+  
+  .project-card {
+    height: 480px;
+  }
+}
