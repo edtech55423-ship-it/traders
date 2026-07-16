@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { supabase } from "../lib/supabase";
 import { UserProfile } from "../components/ui/UserProfile";
 import { MobileMenu } from "../components/MobileMenu";
+import { Navbar } from "../components/Navbar";
 import { GlassCard } from "../components/ui/GlassCard";
 import logoi from "../assets/logoi.png";
 import { Users, DollarSign, Activity, FileText } from "lucide-react";
@@ -103,46 +104,7 @@ export default function Dashboard() {
       <div className="absolute inset-0 bg-black/80 z-0 pointer-events-none"></div>
 
       <div className="relative z-10">
-        {/* Navigation */}
-        <nav className="absolute top-0 left-0 right-0 z-50 p-6 pt-8">
-          <div className="max-w-[1400px] mx-auto flex items-center justify-between px-4 relative">
-            <div className="flex items-center z-10 -ml-22 md:-ml-32">
-              <Link to="/#home" className="flex items-center">
-                <img 
-                  src={logoi}
-                  alt="T4 Trader" 
-                  className="h-16 md:h-20 lg:h-24 w-auto object-contain transform origin-left"
-                />
-              </Link>
-            </div>
-
-            <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center gap-16 bg-white/10 backdrop-blur-md border border-white/10 px-12 py-2.5 rounded-full shadow-lg z-10">
-              <Link to="/#home" className="text-sm font-medium hover:text-white transition-colors text-white/70">Home</Link>
-              <Link to="/course" className="text-sm font-medium hover:text-white transition-colors text-white/70">Course</Link>
-              {session && isAdmin(session.user?.email) && (
-                <Link to="/dashboard" className="text-sm font-medium text-white hover:text-white transition-colors">Dashboard</Link>
-              )}
-              <a href="/#team" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Team</a>
-              <Link to="/#faq" className="text-sm font-medium text-white/70 hover:text-white transition-colors">FAQs</Link>
-            </div>
-            
-            <div className="flex items-center space-x-2 md:space-x-4 z-10">
-              {session && (
-                <UserProfile session={session} handleLogout={handleLogout} />
-              )}
-
-              <MobileMenu
-                links={[
-                  { label: "Home", to: "/#home" },
-                  { label: "Course", to: "/course" },
-                  ...(session && isAdmin(session.user?.email) ? [{ label: "Dashboard", to: "/dashboard" }] : []),
-                  { label: "Team", to: "/#team" },
-                  { label: "FAQs", to: "/#faq" },
-                ]}
-              />
-            </div>
-          </div>
-        </nav>
+        <Navbar session={session} handleLogout={handleLogout} />
 
         {/* Dashboard Content */}
         <div className="pt-24 md:pt-32 max-w-[1400px] mx-auto px-4 md:px-8">

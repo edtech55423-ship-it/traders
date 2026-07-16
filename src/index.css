@@ -24,20 +24,13 @@
 }
 
 :root {
-  --background: #040d06;
+  --background: #bce5c5;
   --foreground: #ffffff;
 }
 
 html, body {
   overflow-x: hidden;
   width: 100%;
-}
-
-/* Apply 90% screen size on tablets, laptops, and PCs */
-@media (min-width: 768px) {
-  html {
-    zoom: 0.9;
-  }
 }
 
 body {
@@ -156,7 +149,7 @@ body {
 
 .projects-stack-container {
   position: relative;
-  height: 340px;
+  height: 280px;
   margin: 0 auto 120px;
   width: 100%;
 }
@@ -167,7 +160,7 @@ body {
   left: 0;
   right: 0;
   border-radius: 20px;
-  height: 340px;
+  height: 280px;
   transform: translateY(100%); /* starting position — off-screen below */
   will-change: transform;
 }
