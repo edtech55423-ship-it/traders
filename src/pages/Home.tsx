@@ -25,37 +25,42 @@ export default function Home() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const cards = gsap.utils.toArray('.project-card') as HTMLElement[];
-    const section = document.getElementById('section-5');
+    const cards = gsap.utils.toArray(".project-card") as HTMLElement[];
+    const section = document.getElementById("section-5");
 
     if (!section || cards.length === 0) return;
 
     // Stagger initial z-index so later cards sit on top
     cards.forEach((card, i) => {
-      gsap.set(card, { y: '110%', zIndex: i + 1 });
+      gsap.set(card, { y: i === 0 ? "0%" : "110%", zIndex: i + 1 });
     });
 
     // Add extra scroll distance so the last card stays on screen before unpinning
-    const extraReadTime = 1; 
-    const totalScroll = (cards.length + extraReadTime) * 100;
+    const extraReadTime = 1;
+    const numAnimatedCards = cards.length - 1;
+    const totalScroll = (numAnimatedCards + extraReadTime) * 100;
 
     const st = ScrollTrigger.create({
       trigger: section,
-      start: 'top top',
+      start: "top top",
       end: `+=${totalScroll}%`,
-      pin: section,     // pins the section while cards cycle through
-      scrub: 0.5,        // ties progress directly to scroll position
+      pin: section, // pins the section while cards cycle through
+      scrub: 0.5, // ties progress directly to scroll position
       onUpdate: (self) => {
         const progress = self.progress;
-        const perCard = 1 / (cards.length + extraReadTime);
+        const perCard = 1 / (numAnimatedCards + extraReadTime);
 
         cards.forEach((card, i) => {
-          const start = i * perCard;
-          const p = Math.max(0, Math.min(1, (progress - start) / perCard));
-          const yVal = (1 - p) * 130; // slides from 110% down to 0%
-          gsap.set(card, { y: `${yVal}%`, zIndex: i + 1 });
+          if (i === 0) {
+            gsap.set(card, { y: "0%", zIndex: 1 });
+          } else {
+            const start = (i - 1) * perCard;
+            const p = Math.max(0, Math.min(1, (progress - start) / perCard));
+            const yVal = (1 - p) * 130; // slides from 130% down to 0%
+            gsap.set(card, { y: `${yVal}%`, zIndex: i + 1 });
+          }
         });
-      }
+      },
     });
 
     return () => {
@@ -66,7 +71,6 @@ export default function Home() {
   const navigate = useNavigate();
 
   const [session, setSession] = useState<any>(null);
-
 
   useEffect(() => {
     const getSession = async () => {
@@ -120,9 +124,9 @@ export default function Home() {
             
             <div className="flex items-center gap-3 mb-8">
               <a href="#home" className="flex items-center">
-                <img 
+                <img
                   src={logoi}
-                  alt="T4 Trader" 
+                  alt="T4 Trader"
                   className="h-16 md:h-20 lg:h-24 w-auto object-contain transform origin-left"
                 />
               </a>
@@ -178,7 +182,9 @@ export default function Home() {
                 links={[
                   { label: "Home", to: "#home" },
                   { label: "Course", to: "/course" },
-                  ...(session && isAdmin(session.user?.email) ? [{ label: "Dashboard", to: "/dashboard" }] : []),
+                  ...(session && isAdmin(session.user?.email)
+                    ? [{ label: "Dashboard", to: "/dashboard" }]
+                    : []),
                   { label: "Team", to: "#team" },
                   { label: "FAQs", to: "#faq" },
                 ]}
@@ -201,7 +207,6 @@ export default function Home() {
           id="home"
           className="relative min-h-screen flex flex-col items-center justify-center pt-12 pb-8 md:pt-24 md:pb-32 overflow-hidden"
         >
-          
           <div className="relative z-10 text-center px-2 md:px-4 max-w-5xl mx-auto mt-16 pointer-events-none">
             <h1 className="text-4xl sm:text-5xl md:text-[6.5rem] font-['Belgin'] tracking-tight leading-[1.1] mb-6 md:mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
               <StrobeText text="TRADE" className="text-accent" delay={0.2} />{" "}
@@ -218,8 +223,8 @@ export default function Home() {
               className="text-gray-300 max-w-2xl mx-auto mb-8 md:mb-12 text-sm md:text-lg drop-shadow-md"
             >
               T4 traders teach a disciplined and four- part method -Timing,
-              Trend ,Trigger and Target. Read by 12000+ Students to read
-              markets , manage risks and stop guessing .
+              Trend ,Trigger and Target. Read by 12000+ Students to read markets
+              , manage risks and stop guessing .
             </motion.p>
 
             <motion.div
@@ -228,7 +233,10 @@ export default function Home() {
               transition={{ delay: 2, duration: 0.8 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 pointer-events-auto"
             >
-              <Link to="/course" className="w-full sm:w-auto flex justify-center">
+              <Link
+                to="/course"
+                className="w-full sm:w-auto flex justify-center"
+              >
                 <Button className="w-auto px-1.5 py-1.5 h-10 md:h-[52px] rounded-full bg-white text-black hover:bg-gray-100 flex items-center justify-between sm:justify-start pl-4 md:pl-6 text-sm md:text-base font-medium border-0 gap-2 md:gap-3 group shadow-xl hover:shadow-2xl !transition-all">
                   Start Learning
                   <span className="w-[32px] h-[32px] md:w-[40px] md:h-[40px] rounded-full bg-[#83d483] flex items-center justify-center border-0 group-hover:bg-[#91df91] transition-colors shadow-none text-[#113816]">
@@ -236,7 +244,10 @@ export default function Home() {
                   </span>
                 </Button>
               </Link>
-              <Link to="/free-trial" className="w-full sm:w-auto flex justify-center">
+              <Link
+                to="/free-trial"
+                className="w-full sm:w-auto flex justify-center"
+              >
                 <Button
                   variant="outline"
                   className="w-auto px-6 md:px-8 h-10 md:h-[52px] text-sm md:text-base rounded-full border border-white text-white hover:bg-white/10 font-medium bg-black/20 backdrop-blur-sm"
@@ -350,7 +361,7 @@ export default function Home() {
         <section className="py-6 border-b border-white/5 overflow-hidden">
           <motion.div
             animate={{ x: ["-50%", "0%"] }}
-            transition={{ repeat: Infinity, duration: 35, ease: "linear" }}
+            transition={{ repeat: Infinity, duration: 100, ease: "linear" }}
             className="flex w-max whitespace-nowrap text-gray-500 font-mono font-bold uppercase tracking-widest text-sm"
           >
             {[...Array(6)].map((_, i) => (
@@ -445,31 +456,30 @@ export default function Home() {
                   desc: "Position sizing, scaling out, and portfolio-level targets — the discipline layer that turns single winning trades into a compounding, repeatable process.",
                 },
               ].map((method, i) => (
-                <GlitchHoverCard
-                  key={i}
-                  active={methodActive}
-                  className="sticky grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-8 items-center py-8 md:py-12 px-4 md:px-6 rounded-2xl text-center md:text-left bg-black/80 backdrop-blur-md shadow-[0_-10px_25px_rgba(0,0,0,0.1)] border border-white/10 group"
-                  style={{
-                    top: `calc(100px + ${i * 40}px)`,
-                    zIndex: i + 10,
-                  }}
-                >
-                  <div
-                    className="text-[4rem] md:text-[7rem] font-serif font-bold text-transparent transition-all duration-500"
-                    style={{
-                      WebkitTextStroke: methodActive
-                        ? "0"
-                        : "1px rgba(255,255,255,0.2)",
-                    }}
+                <div key={i} className="project-card">
+                  <GlitchHoverCard
+                    active={methodActive}
+                    className="h-full w-full flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 py-8 md:py-12 px-8 md:px-12 rounded-3xl text-left bg-[#0a110a]/90 backdrop-blur-xl border border-white/10 group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(201,255,0,0.25)] hover:border-[#c9ff00]/50"
                   >
-                    <span
-                      className={`transition-colors duration-500 ${
-                        methodActive ? "text-primary" : "text-transparent"
-                      }`}
+                    {/* Background glow effect on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <div
+                      className="text-[5rem] md:text-[8rem] font-serif font-bold leading-none text-transparent transition-all duration-500 shrink-0"
+                      style={{
+                        WebkitTextStroke: methodActive
+                          ? "0"
+                          : "1px rgba(255,255,255,0.2)",
+                      }}
                     >
-                      {method.num}
-                    </span>
-                  </div>
+                      <span
+                        className={`transition-colors duration-500 ${
+                          methodActive ? "text-primary" : "text-transparent"
+                        }`}
+                      >
+                        {method.num}
+                      </span>
+                    </div>
 
                   <div>
                     <span className="text-primary font-mono text-xs tracking-widest uppercase mb-3 block">
@@ -681,7 +691,12 @@ export default function Home() {
               <motion.div
                 key={i}
                 animate={{ x: i % 2 === 0 ? [0, -1000] : [-1000, 0] }}
-                transition={{ repeat: Infinity, duration: 40, ease: "linear", repeatType: "reverse" }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 40,
+                  ease: "linear",
+                  repeatType: "reverse",
+                }}
                 className="flex gap-6 w-max"
               >
                 {[...row, ...row].map((t, j) => (
@@ -704,7 +719,10 @@ export default function Home() {
         </section>
 
         {/* Team Section */}
-        <section id="team" className="py-16 md:py-32 relative overflow-hidden bg-black">
+        <section
+          id="team"
+          className="py-16 md:py-32 relative overflow-hidden bg-black"
+        >
           <div className="max-w-4xl mx-auto px-6 md:px-10 relative z-10">
             <div className="text-center mb-16">
               <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">
@@ -717,7 +735,6 @@ export default function Home() {
 
             {/* Split Screen Accordion Container */}
             <div className="group flex flex-col md:flex-row w-full h-[600px] md:h-[450px] rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-[#0a0a0a]">
-              
               {/* Member 1 (Left / Top) */}
               <div className="group/member w-full h-1/2 md:w-1/2 md:h-full group-hover:h-0 md:group-hover:h-full md:group-hover:w-0 hover:!h-full md:hover:!w-full transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] relative overflow-hidden cursor-pointer border-b md:border-b-0 md:border-r border-white/10">
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
@@ -728,12 +745,19 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 z-20 p-8 md:p-12 flex flex-col justify-end">
                   <div className="transform md:translate-y-16 group-hover/member:translate-y-0 transition-transform duration-700">
-                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 whitespace-nowrap">Rahul Sharma</h3>
-                    <p className="text-primary font-mono text-sm tracking-wider uppercase mb-6 whitespace-nowrap">Senior Price Action Expert</p>
-                    
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 whitespace-nowrap">
+                      Rahul Sharma
+                    </h3>
+                    <p className="text-primary font-mono text-sm tracking-wider uppercase mb-6 whitespace-nowrap">
+                      Senior Price Action Expert
+                    </p>
+
                     <div className="opacity-0 group-hover/member:opacity-100 transition-opacity duration-700 md:delay-100 max-w-md h-0 group-hover/member:h-auto overflow-hidden">
                       <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                        Master of pure price action. Rahul simplifies complex market structures into highly actionable, rules-based strategies. He has been helping students since 2018 with a focus on risk management.
+                        Master of pure price action. Rahul simplifies complex
+                        market structures into highly actionable, rules-based
+                        strategies. He has been helping students since 2018 with
+                        a focus on risk management.
                       </p>
                     </div>
                   </div>
@@ -750,24 +774,32 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 z-20 p-8 md:p-12 flex flex-col justify-end">
                   <div className="transform md:translate-y-16 group-hover/member:translate-y-0 transition-transform duration-700">
-                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 whitespace-nowrap">Ananya Desai</h3>
-                    <p className="text-primary font-mono text-sm tracking-wider uppercase mb-6 whitespace-nowrap">Options & Derivatives</p>
-                    
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 whitespace-nowrap">
+                      Ananya Desai
+                    </h3>
+                    <p className="text-primary font-mono text-sm tracking-wider uppercase mb-6 whitespace-nowrap">
+                      Options & Derivatives
+                    </p>
+
                     <div className="opacity-0 group-hover/member:opacity-100 transition-opacity duration-700 md:delay-100 max-w-md h-0 group-hover/member:h-auto overflow-hidden">
                       <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                        Specializes in delta-neutral and directional options strategies. She helps students manage risk while maximizing leverage using systematic trading algorithms.
+                        Specializes in delta-neutral and directional options
+                        strategies. She helps students manage risk while
+                        maximizing leverage using systematic trading algorithms.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="py-6 md:py-24 relative border-t border-white/10">
+        <section
+          id="faq"
+          className="py-6 md:py-24 relative border-t border-white/10"
+        >
           <div className="max-w-3xl mx-auto p-7 md:px-10">
             <div className="text-center mb-6 md:mb-16">
               <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">
