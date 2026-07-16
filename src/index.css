@@ -28,6 +28,10 @@
   --foreground: #ffffff;
 }
 
+html {
+  font-size: 90%;
+}
+
 html, body {
   overflow-x: hidden;
   width: 100%;
