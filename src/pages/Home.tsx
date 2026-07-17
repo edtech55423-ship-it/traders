@@ -5,14 +5,11 @@ import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { StrobeText } from "../components/StrobeText";
 import { GlitchHoverCard } from "../components/GlitchHoverCard";
 import { MagneticIcon } from "../components/MagneticIcon";
-import { MobileMenu } from "../components/MobileMenu";
+import { Navbar } from "../components/Navbar";
 
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
-import { UserProfile } from "../components/ui/UserProfile";
-import { isAdmin } from "../lib/admin";
-import logoi from "../assets/logoi.png";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -118,97 +115,15 @@ export default function Home() {
       <div className="absolute inset-0 bg-black/60 z-0 pointer-events-none"></div>
 
       <div className="relative z-10">
-        {/* Navigation */}
-        <nav className="absolute top-0 left-0 right-0 z-50 p-6 pt-8"> 
-          <div className="max-w-[1400px] mx-auto flex items-center justify-between px-4 relative">
-            
-            <div className="flex items-center gap-3 mb-8">
-              <a href="#home" className="flex items-center">
-                <img
-                  src={logoi}
-                  alt="T4 Trader"
-                  className="h-10 md:h-14 lg:h-16 w-auto object-contain transform origin-left"
-                />
-              </a>
-            </div>
-
-            <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center gap-8 bg-white/10 backdrop-blur-md border border-white/10 px-8 py-2 rounded-full shadow-lg z-10">
-              <a
-                href="#home"
-                className="text-sm font-medium hover:text-white transition-colors text-white"
-              >
-                Home
-              </a>
-              <Link
-                to="/course"
-                className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-              >
-                Course
-              </Link>
-              {session && isAdmin(session.user?.email) && (
-                <Link
-                  to="/dashboard"
-                  className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-                >
-                  Dashboard
-                </Link>
-              )}
-              <a
-                href="#team"
-                className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-              >
-                Team
-              </a>
-              <a
-                href="#faq"
-                className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-              >
-                FAQS
-              </a>
-            </div>
-            <div className="flex items-center space-x-2 md:space-x-4 z-10">
-              {session ? (
-                <UserProfile session={session} handleLogout={handleLogout} />
-              ) : (
-                <Link
-                  to="/login"
-                  className="hidden sm:inline-block text-xs md:text-sm font-medium bg-white/5 backdrop-blur-md border border-white/10 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white/80 hover:text-white transition-colors shadow-lg"
-                >
-                  Register/Login
-                </Link>
-              )}
-
-              <MobileMenu
-                links={[
-                  { label: "Home", to: "#home" },
-                  { label: "Course", to: "/course" },
-                  ...(session && isAdmin(session.user?.email)
-                    ? [{ label: "Dashboard", to: "/dashboard" }]
-                    : []),
-                  { label: "Team", to: "#team" },
-                  { label: "FAQs", to: "#faq" },
-                ]}
-              >
-                {!session && (
-                  <Link
-                    to="/login"
-                    className="sm:hidden text-center text-sm font-medium bg-white/5 border border-white/10 px-4 py-3 rounded-full text-white/80 hover:text-white transition-colors"
-                  >
-                    Register/Login
-                  </Link>
-                )}
-              </MobileMenu>
-            </div>
-          </div>
-        </nav>
+        <Navbar session={session} handleLogout={handleLogout} isHome={true} />
 
         {/* Hero Section */}
         <section
           id="home"
           className="relative min-h-screen flex flex-col items-center justify-center pt-12 pb-8 md:pt-24 md:pb-32 overflow-hidden"
         >
-          <div className="relative z-10 text-center px-2 md:px-4 max-w-5xl mx-auto mt-16 pointer-events-none">
-            <h1 className="text-4xl sm:text-5xl md:text-[6.5rem] font-['Belgin'] tracking-tight leading-[1.1] mb-6 md:mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+          <div className="relative z-10 text-center px-4 md:px-4 max-w-5xl mx-auto mt-1 pointer-events-none">
+            <h1 className="text-3xl sm:text-5xl md:text-[5rem] font-['Belgin'] tracking-tight leading-[1.1] mb-6 md:mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
               <StrobeText text="TRADE" className="text-accent" delay={0.2} />{" "}
               <StrobeText text="ON YOUR" className="text-white" delay={0.5} />
               <br />
@@ -220,7 +135,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5, duration: 1 }}
-              className="text-gray-300 max-w-2xl mx-auto mb-8 md:mb-12 text-sm md:text-lg drop-shadow-md"
+              className="text-gray-300 max-w-2xl mx-auto mb-2 md:mb-6 text-xs md:text-sm drop-shadow-md"
             >
               T4 traders teach a disciplined and four- part method -Timing,
               Trend ,Trigger and Target. Read by 12000+ Students to read markets
@@ -237,10 +152,10 @@ export default function Home() {
                 to="/course"
                 className="w-full sm:w-auto flex justify-center"
               >
-                <Button className="w-auto px-1.5 py-1.5 h-10 md:h-[52px] rounded-full bg-white text-black hover:bg-gray-100 flex items-center justify-between sm:justify-start pl-4 md:pl-6 text-sm md:text-base font-medium border-0 gap-2 md:gap-3 group shadow-xl hover:shadow-2xl !transition-all">
+                <Button className="w-auto px-1.5 py-1.5 h-10 md:h-[44px] rounded-full bg-white text-black hover:bg-gray-100 flex items-center justify-between sm:justify-start pl-4 md:pl-5 text-xs md:text-sm font-medium border-0 gap-2 md:gap-3 group shadow-xl hover:shadow-2xl !transition-all">
                   Start Learning
-                  <span className="w-[32px] h-[32px] md:w-[40px] md:h-[40px] rounded-full bg-[#83d483] flex items-center justify-center border-0 group-hover:bg-[#91df91] transition-colors shadow-none text-[#113816]">
-                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                  <span className="w-[28px] h-[28px] md:w-[32px] md:h-[32px] rounded-full bg-[#83d483] flex items-center justify-center border-0 group-hover:bg-[#91df91] transition-colors shadow-none text-[#113816]">
+                    <ArrowRight className="w-4 h-4 md:w-4 md:h-4" />
                   </span>
                 </Button>
               </Link>
@@ -250,7 +165,7 @@ export default function Home() {
               >
                 <Button
                   variant="outline"
-                  className="w-auto px-6 md:px-8 h-10 md:h-[52px] text-sm md:text-base rounded-full border border-white text-white hover:bg-white/10 font-medium bg-black/20 backdrop-blur-sm"
+                  className="w-auto px-5 md:px-6 h-10 md:h-[44px] text-xs md:text-sm rounded-full border border-white text-white hover:bg-white/10 font-medium bg-black/20 backdrop-blur-sm"
                 >
                   Free Trial
                 </Button>
@@ -411,10 +326,10 @@ export default function Home() {
         <section
           id="method"
           ref={methodRef}
-          className="py-24 relative border-b border-white/5"
+          className="py-6 md:py-24 relative border-b border-white/5 bg-transparent z-10"
         >
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="mb-16">
+          <div className="max-w-5xl mx-auto px-6 md:px-10">
+            <div className="mb-6 md:mb-16">
               <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">
                 The framework
               </span>
@@ -459,13 +374,13 @@ export default function Home() {
                 <div key={i} className="project-card">
                   <GlitchHoverCard
                     active={methodActive}
-                    className="h-full w-full flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 py-8 md:py-12 px-8 md:px-12 rounded-3xl text-left bg-[#0a110a]/90 backdrop-blur-xl border border-white/10 group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(201,255,0,0.25)] hover:border-[#c9ff00]/50"
+                    className="h-full w-full flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 py-6 md:py-8 px-8 md:px-10 rounded-3xl text-left bg-[#0a110a]/90 backdrop-blur-xl border border-white/10 group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(201,255,0,0.25)] hover:border-[#c9ff00]/50"
                   >
                     {/* Background glow effect on hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                     <div
-                      className="text-[5rem] md:text-[8rem] font-serif font-bold leading-none text-transparent transition-all duration-500 shrink-0"
+                      className="text-[4rem] md:text-[6rem] font-serif font-bold leading-none text-transparent transition-all duration-500 shrink-0"
                       style={{
                         WebkitTextStroke: methodActive
                           ? "0"
@@ -481,18 +396,21 @@ export default function Home() {
                       </span>
                     </div>
 
-                  <div>
-                    <span className="text-primary font-mono text-xs tracking-widest uppercase mb-3 block">
-                      {method.tag}
-                    </span>
+                    <div className="relative z-10 flex-1">
+                      <span className="inline-block px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full font-mono text-[10px] md:text-xs tracking-widest uppercase mb-4">
+                        {method.tag}
+                      </span>
 
-                    <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                      {method.title}
-                    </h3>
+                      <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-3 text-white leading-tight">
+                        {method.title}
+                      </h3>
 
-                    <p className="text-gray-400 max-w-xl">{method.desc}</p>
-                  </div>
-                </GlitchHoverCard>
+                      <p className="text-gray-400 text-sm md:text-base max-w-2xl leading-relaxed">
+                        {method.desc}
+                      </p>
+                    </div>
+                  </GlitchHoverCard>
+                </div>
               ))}
             </div>
           </div>

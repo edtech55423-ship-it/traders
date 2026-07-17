@@ -169,7 +169,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ session, handleLogout 
       {/* Avatar Trigger Button */}
       <button
         onClick={toggleDropdown}
-        className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center font-bold uppercase shadow-lg border border-gray-200 overflow-hidden"
+        className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white text-black flex items-center justify-center font-bold uppercase shadow-lg border border-gray-200 overflow-hidden"
       >
         {avatarData ? (
           <img src={avatarData} alt="Avatar" className="w-full h-full object-cover" />

@@ -3,14 +3,11 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { GlassCard } from '../components/ui/GlassCard';
 import { CheckCircle2, ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
-import { MobileMenu } from '../components/MobileMenu';
+import { Navbar } from '../components/Navbar';
 import { courses } from '../data/courses';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { UserProfile } from '../components/ui/UserProfile';
-import { isAdmin } from '../lib/admin';
-import logoi from '../assets/logoi.png';
 
 export default function Course() {
   const navigate = useNavigate();
@@ -46,85 +43,7 @@ export default function Course() {
 
       <div className="relative z-10">
         {/* Navigation */}
-        <nav className="absolute top-0 left-0 right-0 z-50 p-6 pt-8">
-          <div className="max-w-[1400px] mx-auto flex items-center justify-between px-4 relative">
-            <div className="flex items-center z-10 -ml-22 md:-ml-32">
-              <Link to="/#home" className="flex items-center">
-                <img 
-                  src={logoi}
-                  alt="T4 Trader" 
-                  className="h-16 md:h-20 lg:h-24 w-auto object-contain transform origin-left"
-                />
-              </Link>
-            </div>
-
-            <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center gap-16 bg-white/10 backdrop-blur-md border border-white/10 px-12 py-2.5 rounded-full shadow-lg z-10">
-              <Link
-                to="/#home"
-                className="text-sm font-medium hover:text-white transition-colors text-white"
-              >
-                Home
-              </Link>
-              <Link
-                to="/course"
-                className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-              >
-                Course
-              </Link>
-              {session && isAdmin(session.user?.email) && (
-                <Link
-                  to="/dashboard"
-                  className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-                >
-                  Dashboard
-                </Link>
-              )}
-              <Link
-                to="/#team"
-                className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-              >
-                Team
-              </Link>
-              <Link
-                to="/#faq"
-                className="text-sm font-medium text-white/67 hover:text-white transition-colors"
-              >
-                FAQS
-              </Link>
-            </div>
-            <div className="flex items-center space-x-2 md:space-x-4 z-10">
-              {session ? (
-                <UserProfile session={session} handleLogout={handleLogout} />
-              ) : (
-                <Link
-                  to="/login"
-                  className="hidden sm:inline-block text-xs md:text-sm font-medium bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 md:px-6 md:py-3 rounded-full text-white/80 hover:text-white transition-colors shadow-lg"
-                >
-                  Register/Login
-                </Link>
-              )}
-
-              <MobileMenu
-                links={[
-                  { label: "Home", to: "/#home" },
-                  { label: "Course", to: "/course" },
-                  ...(session && isAdmin(session.user?.email) ? [{ label: "Dashboard", to: "/dashboard" }] : []),
-                  { label: "Team", to: "/#team" },
-                  { label: "FAQs", to: "/#faq" },
-                ]}
-              >
-                {!session && (
-                  <Link
-                    to="/login"
-                    className="sm:hidden text-center text-sm font-medium bg-white/5 border border-white/10 px-4 py-3 rounded-full text-white/80 hover:text-white transition-colors"
-                  >
-                    Register/Login
-                  </Link>
-                )}
-              </MobileMenu>
-            </div>
-          </div>
-        </nav>
+        <Navbar session={session} handleLogout={handleLogout} />
 
         <div className="pt-32">
           {/* Courses Section */}
