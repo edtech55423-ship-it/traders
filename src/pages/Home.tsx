@@ -4,7 +4,6 @@ import { GlassCard } from "../components/ui/GlassCard";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { StrobeText } from "../components/StrobeText";
 import { MagneticIcon } from "../components/MagneticIcon";
-import { Navbar } from "../components/Navbar";
 
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,11 +12,25 @@ import { UserProfile } from "../components/ui/UserProfile";
 import { isAdmin } from "../lib/admin";
 import logoi from "../assets/logoi.png";
 import FrameworkSection from "../components/FrameworkSection";
+import LocomotiveScroll from "locomotive-scroll";
 
 export default function Home() {
   const navigate = useNavigate();
 
   const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+  const locomotiveScroll = new LocomotiveScroll({
+    lenisOptions: {
+      lerp: 0.08,
+      smoothWheel: true,
+    },
+  });
+
+  return () => {
+    locomotiveScroll.destroy();
+  };
+}, []);
 
   useEffect(() => {
     const getSession = async () => {
