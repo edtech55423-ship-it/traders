@@ -1,59 +1,64 @@
+import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HomeSkeleton, CourseSkeleton, DashboardSkeleton } from "./components/ui/Skeletons";
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Consultation from "./pages/Consultation";
-import FreeTrial from "./pages/FreeTrial";
-import Course from "./pages/Course";
-import Checkout from "./pages/Checkout";
-import Dashboard from "./pages/Dashboard";
-import ResetPassword from "./pages/ResetPassword";
+const Home = React.lazy(() => import("./pages/Home"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Register = React.lazy(() => import("./pages/Register"));
+const Consultation = React.lazy(() => import("./pages/Consultation"));
+const FreeTrial = React.lazy(() => import("./pages/FreeTrial"));
+const Course = React.lazy(() => import("./pages/Course"));
+const Checkout = React.lazy(() => import("./pages/Checkout"));
+const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+const ResetPassword = React.lazy(() => import("./pages/ResetPassword"));
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Public Routes */}
+      <Suspense fallback={null}>
+        <Routes>
+          {/* Public Routes */}
 
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/consultation" element={<Consultation />} />
-        <Route path="/free-trial" element={<FreeTrial />} />
+          <Route path="/" element={<Suspense fallback={<HomeSkeleton />}><Home /></Suspense>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/consultation" element={<Consultation />} />
+          <Route path="/free-trial" element={<FreeTrial />} />
 
-        {/* Protected Route */}
+          {/* Protected Route */}
 
-        <Route
-          path="/course"
-          element={
-            <ProtectedRoute>
-              <Course />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/checkout/:courseId"
-          element={
-            <ProtectedRoute>
-              <Checkout />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute adminOnly={true}>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/reset-password" element={<ResetPassword />} />
-      </Routes>
+          <Route
+            path="/course"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<CourseSkeleton />}><Course /></Suspense>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout/:courseId"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <Suspense fallback={<DashboardSkeleton />}><Dashboard /></Suspense>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/reset-password" element={<ResetPassword />} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }
 
 export default App;
+

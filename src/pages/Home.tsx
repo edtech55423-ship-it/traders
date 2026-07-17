@@ -839,14 +839,15 @@ export default function Home() {
           id="footer"
           className="bg-[#020703] border-t border-white/10 pt-10 md:pt-16 pb-6 md:pb-8"
         >
-          <div className="max-w-7xl mx-auto p-7 md:px-10 grid md:grid-cols-4 gap-8 md:gap-12 mb-4 md:mb-6 md:mb-12">
-            <div>
+          <div className="max-w-7xl mx-auto p-7 md:px-10 grid md:grid-cols-6 gap-8 md:gap-12 mb-4 md:mb-6 md:mb-12">
+            <div className="md:col-span-4">
               <div className="text-2xl font-bold tracking-tighter mb-6">
                 <span className="text-white">T4</span>
                 <span className="text-primary font-light">Traders</span>
               </div>
               <p className="text-gray-500 text-sm mb-6">
-                Your pathway to professional trading. Master the markets with
+                Your pathway to professional trading.<br />
+                Master the markets with<br />
                 our disciplined four-part method.
               </p>
               <div className="flex space-x-4">

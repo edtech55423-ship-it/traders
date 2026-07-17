@@ -124,12 +124,16 @@ export default function Course() {
 
         {/* Footer / Contact */}
         <footer id="contact" className="bg-[#020703] border-t border-white/10 pt-16 pb-8">
-          <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-12 mb-12">
-            <div>
+          <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-6 gap-12 mb-12">
+            <div className="md:col-span-4">
               <div className="text-2xl font-bold tracking-tighter mb-6">
                 <span className="text-white">T4</span><span className="text-primary font-light">Traders</span>
               </div>
-              <p className="text-gray-500 text-sm mb-6">Your pathway to professional trading. Master the markets with our disciplined four-part method.</p>
+              <p className="text-gray-500 text-sm mb-6">
+                Your pathway to professional trading.<br />
+                Master the markets with<br />
+                our disciplined four-part method.
+              </p>
               <div className="flex space-x-4">
                 <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors">
                   <span className="sr-only">Twitter</span>
@@ -150,16 +154,6 @@ export default function Course() {
                 <li><a href="#" className="hover:text-primary transition-colors">Intermediate Course</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Advanced Strategies</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Offline Bootcamps</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold mb-6 text-white">Company</h4>
-              <ul className="space-y-3 text-sm text-gray-500">
-                <li><Link to="/#about" className="hover:text-primary transition-colors">About Us</Link></li>
-                <li><Link to="/#team" className="hover:text-primary transition-colors">Our Team</Link></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
               </ul>
             </div>
 
