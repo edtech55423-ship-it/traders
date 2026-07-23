@@ -1,6 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getLocalSessionId, clearLocalSessionId } from "../lib/session";
-import { getActiveSession } from "../lib/session";
 
 import type { ReactNode } from "react";
 import type { Session } from "@supabase/supabase-js";
@@ -21,114 +19,65 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const checkCurrentSession = async (userId: string) => {
-    try {
-      const { data, error } = await getActiveSession(userId);
-
-      if (error || !data) return;
-
-      const dbSessionId = data.session_id;
-      const localSessionId = getLocalSessionId();
-
-      console.log("Checking Session...");
-      console.log("DB:", dbSessionId);
-      console.log("LOCAL:", localSessionId);
-
-      // Guard
-      if (!localSessionId) return;
-
-      if (dbSessionId !== localSessionId) {
-        alert("Your account has been logged in from another device.");
-
-        clearLocalSessionId();
-
-        await supabase.auth.signOut({
-          scope: "local",
-        });
-
-        window.location.href = "/login";
-      }
-    } catch (err) {
-      console.error("Session Check Error:", err);
-    }
-  };
-
+  // Effect 1: auth state (login/logout/token refresh).
+  // onAuthStateChange fires an INITIAL_SESSION event on mount with the
+  // current session, so a separate getSession() call is not needed.
   useEffect(() => {
-    let sessionCheckInterval: ReturnType<typeof setInterval> | undefined;
-
-    const startPolling = async (userId: string) => {
-      if (sessionCheckInterval) {
-        clearInterval(sessionCheckInterval);
-      }
-
-      await checkCurrentSession(userId);
-
-      sessionCheckInterval = setInterval(() => {
-        checkCurrentSession(userId);
-      }, 5000);
-    };
-
-    const getSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      setSession(session);
-
-      const userId = session?.user?.id;
-
-      if (userId) {
-        await startPolling(userId);
-      }
-
-      setLoading(false);
-    };
-
-    getSession();
-
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("AUTH EVENT:", event);
-
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-
-      const userId = session?.user?.id;
-
-      if (userId) {
-        startPolling(userId);
-      } else {
-        if (sessionCheckInterval) {
-          clearInterval(sessionCheckInterval);
-          sessionCheckInterval = undefined;
-        }
-      }
+      setLoading(false);
     });
-
-    const handleFocus = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      setSession(session);
-
-      if (session?.user?.id) {
-        await checkCurrentSession(session.user.id);
-      }
-    };
-
-    window.addEventListener("focus", handleFocus);
 
     return () => {
       subscription.unsubscribe();
-
-      if (sessionCheckInterval) {
-        clearInterval(sessionCheckInterval);
-      }
-
-      window.removeEventListener("focus", handleFocus);
     };
   }, []);
+
+  // Effect 2: single-device-login enforcement.
+  // Only (re)subscribes when the logged-in user changes, and filters
+  // at the database level so this browser only receives realtime
+  // events for its OWN user's row. Requires: RLS SELECT policy on
+  // active_sessions, an explicit GRANT SELECT to `authenticated`,
+  // and REPLICA IDENTITY FULL on the table (since the filter column
+  // `user_id` isn't the primary key).
+  useEffect(() => {
+    const userId = session?.user?.id;
+    if (!userId) return;
+
+    const channel = supabase
+      .channel(`active-session-listener-${userId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "active_sessions",
+          filter: `user_id=eq.${userId}`,
+        },
+        (payload) => {
+          const newSession = payload.new as {
+            user_id: string;
+            session_id: string;
+          };
+
+          const localSessionId = localStorage.getItem("active_session_id");
+
+          if (localSessionId && localSessionId !== newSession.session_id) {
+            localStorage.removeItem("active_session_id");
+            supabase.auth.signOut().finally(() => {
+              window.location.href = "/login";
+            });
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [session?.user?.id]);
 
   return (
     <AuthContext.Provider value={{ session, loading }}>
